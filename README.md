@@ -97,3 +97,5 @@ A custom form input validation error class:
 ##License
 
 Contact is released under [LGPL](http://www.gnu.org/licenses/lgpl-3.0-standalone.html).
+
+[![githalytics.com alpha](https://cruel-carlota.pagodabox.com/d4202e8837e5db4295030cbd3984e615 "githalytics.com")](http://githalytics.com/gidlov/pico-contact)
