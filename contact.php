@@ -30,13 +30,13 @@ class Contact {
 		// Post to this form was made.
 		if (isset($this->post['contact']) AND $this->post['contact'] == 'true') {
 			foreach (array('name', 'mail', 'message') as $value) {
-				if (empty($this->post[$value])) {
-					$this->validation[$value] = isset($this->contact['validation_messages']['required']) ? sprintf($this->contact['validation_messages']['required'], $value) : "The {$value}-feild is required.";
-				}
 				if ($value == 'mail') {
 					if (filter_var($this->post['mail'], FILTER_VALIDATE_EMAIL) === false) {
 						$this->validation[$value] = isset($this->contact['validation_messages']['invalid_mail']) ? sprintf($this->contact['validation_messages']['invalid_mail'], $value) : "A valid {$value} i required.";;
 					}
+				}
+				if (empty($this->post[$value])) {
+					$this->validation[$value] = isset($this->contact['validation_messages']['required']) ? sprintf($this->contact['validation_messages']['required'], $value) : "The {$value}-field is required.";
 				}
 			}
 		}
