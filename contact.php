@@ -52,6 +52,7 @@ class Contact {
 				$mail->SMTPSecure = $this->contact['smtp']['encryption'] ? $this->contact['smtp']['encryption'] : '';
 				$mail->Port = $this->contact['smtp']['port'] ? $this->contact['smtp']['port'] : '';
 			}
+			$mail->CharSet = "UTF-8";
 			$mail->FromName = $this->post['name'];
 			$mail->From = $this->post['mail'];
 			$mail->addAddress($this->contact['send_to']);
