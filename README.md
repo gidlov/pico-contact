@@ -18,7 +18,7 @@ Now open your `config.php` file and add insert this:
 
 	$config['contact'] = array(
 		'post' => $_POST,
-		'send_to' => 'klas.gidlov@gmail.com',
+		'send_to' => 'your_email',
 	);
 
 Create a contact.md page (or whatever you want to call it) and insert your contact form there, like this:
