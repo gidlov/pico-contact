@@ -31,11 +31,9 @@ class Contact {
 			return;
 		$this->contact = $settings['contact'];
 		$validate = array('name', 'mail', 'message');
-		var_dump($this->contact);
 		if (isset($this->contact['captcha']) && $this->contact['captcha'] === true) {
 			$validate[] = 'captcha';	
 		}
-		var_dump($validate);
 		$this->post = $settings['contact']['post'];
 		// Post to this form was made.
 		if (isset($this->post['contact']) AND $this->post['contact'] == 'true') {
