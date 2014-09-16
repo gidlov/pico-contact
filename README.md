@@ -8,9 +8,10 @@ This is a simple contact form for your Pico-project.
 [Running example](http://gidlov.com/contact)
 
 ##Setup
-We use the nice [PHPMailer](https://github.com/PHPMailer/PHPMailer) class in this plugin, so we have to update the `require` key of `composer.json` and add the following:
+We use the nice [PHPMailer](https://github.com/PHPMailer/PHPMailer) class in this plugin, so we have to update the `require` key of `composer.json`. If we want to use captcha, we need to add a library for that too We can also and add the following:
 
-	"phpmailer/phpmailer": "dev-master"
+	"phpmailer/phpmailer": "dev-master",
+	"gregwar/captcha": "dev-master"
 
 Run the `composer update` comand.
 

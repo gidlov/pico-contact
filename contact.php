@@ -16,6 +16,11 @@ class Contact {
 	private $message;
 	private $error;
 	private $post;
+	private $captcha;
+
+	public function __construct() {
+		session_start();
+	}
 
 	public function config_loaded(&$settings) {
 		// Missing config settings.
@@ -25,11 +30,16 @@ class Contact {
 		if (empty($settings['contact']['post']))
 			return;
 		$this->contact = $settings['contact'];
+		$validate = array('name', 'mail', 'message');
+		var_dump($this->contact);
+		if (isset($this->contact['captcha']) && $this->contact['captcha'] === true) {
+			$validate[] = 'captcha';	
+		}
+		var_dump($validate);
 		$this->post = $settings['contact']['post'];
-
 		// Post to this form was made.
 		if (isset($this->post['contact']) AND $this->post['contact'] == 'true') {
-			foreach (array('name', 'mail', 'message') as $value) {
+			foreach ($validate as $value) {
 				if ($value == 'mail') {
 					if (filter_var($this->post['mail'], FILTER_VALIDATE_EMAIL) === false) {
 						$this->validation[$value] = isset($this->contact['validation_messages']['invalid_mail']) ? sprintf($this->contact['validation_messages']['invalid_mail'], $value) : "A valid {$value} i required.";;
@@ -37,6 +47,11 @@ class Contact {
 				}
 				if (empty($this->post[$value])) {
 					$this->validation[$value] = isset($this->contact['validation_messages']['required']) ? sprintf($this->contact['validation_messages']['required'], $value) : "The {$value}-field is required.";
+				}
+				if ($value == 'captcha') {
+					 if (isset($_SESSION['phrase']) && isset($this->post[$value]) && $_SESSION['phrase'] != $this->post[$value] ) {
+						$this->validation[$value] = isset($this->contact['validation_messages']['captcha']) ? sprintf($this->contact['validation_messages']['captcha'], $value) : "Captcha Input does not match.";
+					}
 				}
 			}
 		}
