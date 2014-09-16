@@ -8,7 +8,7 @@ This is a simple contact form for your Pico-project.
 [Running example](http://gidlov.com/contact)
 
 ##Setup
-We use the nice [PHPMailer](https://github.com/PHPMailer/PHPMailer) class in this plugin, so we have to update the `require` key of `composer.json`. If we want to use captcha, we need to add a library for that too We can also and add the following:
+We use the nice [PHPMailer](https://github.com/PHPMailer/PHPMailer) class in this plugin, so we have to update the `require` key of `composer.json`. If we want to use captcha, we need to add a library for that too. Add the following:
 
 	"phpmailer/phpmailer": "dev-master",
 	"gregwar/captcha": "dev-master"
@@ -19,7 +19,8 @@ Now open your `config.php` file and add insert this:
 
 	$config['contact'] = array(
 		'post' => $_POST,
-		'send_to' => 'your_email',
+		'send_to' => 'klas.gidlov@gmail.com',
+		'captcha' => true,
 	);
 
 Create a contact.md page (or whatever you want to call it) and insert your contact form there, like this:
@@ -42,8 +43,36 @@ Create a contact.md page (or whatever you want to call it) and insert your conta
 			<label for="message">Message*</label>
 			<textarea class="form-control" id="message" name="message" rows="5"></textarea>
 		</div>
+		<div class="form-group">
+			<label for="captcha">Prove you're not a computer*</label>
+			<input id="captcha" name="captcha" type="text" class="form-control" placeholder="Write the characters in the picture">
+		</div>
+		<div class="form-group ">
+			<img src="captcha.php" alt="" class=""">
+		</div>
 		<button type="submit" class="btn btn-default" name="contact" value="true">Submit</button>
 	</form>
+
+##Captcha
+
+If you want to use captcha, you need to add a page that draws the picture. In the HTML example above creates the image from `captcha.php`, so create such a file in your root directory and add this in it:
+
+	<?php
+
+	include('vendor/gregwar/captcha/Gregwar/Captcha/CaptchaBuilderInterface.php');
+	include('vendor/gregwar/captcha/Gregwar/Captcha/PhraseBuilderInterface.php');
+	include('vendor/gregwar/captcha/Gregwar/Captcha/CaptchaBuilder.php');
+	include('vendor/gregwar/captcha/Gregwar/Captcha/PhraseBuilder.php');
+
+	use Gregwar\Captcha\CaptchaBuilder;
+
+	$builder = new CaptchaBuilder;
+	$builder->build();
+	session_start();
+	$_SESSION['phrase'] = $builder->getPhrase();
+
+	header('Content-type: image/jpeg');
+	$builder->output();
 
 That's it!
 
